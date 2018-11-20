@@ -17,6 +17,7 @@ done
 [ "$QUIET" -ne 1 ] && echo "Installing Python2 modules..."
 
 sudo -H pip ${PIP_FLAG} install unidecode
+sudo -H pip ${PIP_FLAG} install beautifulsoup4
 
 RUN_LOGIN_INFO=""
 
