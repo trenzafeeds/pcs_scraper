@@ -11,19 +11,17 @@ class BaseModel(Model):
     class Meta:
         database = results_database
 
-class Rider(BaseModel):
+class Rider_PW(BaseModel):
 
-    id = IntegerField()
+    pcsid = IntegerField()
     name = CharField()
-    birthday = DateField()
-    current_age = IntegerField()
 
-class Race(BaseModel):
+class Race_PW(BaseModel):
 
     name = CharField()
     pcs_name = CharField()
     
-class Result(BaseModel):
+class Result_PW(BaseModel):
 
     name = CharField()
     year = IntegerField()
@@ -32,8 +30,8 @@ class Result(BaseModel):
     position = Integerfield()
     points_pcs = IntegerField()
 
-    race = ForeignKeyField(Race, backref='results')
-    rider = ForeignKeyField(Rider, backref'results')
+    race = ForeignKeyField(Race_PW, backref='results')
+    rider = ForeignKeyField(Rider_PW, backref='results')
 
     
     
