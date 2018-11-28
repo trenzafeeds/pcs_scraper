@@ -106,10 +106,18 @@ class Rider:
             except:
                 raise ValueError("Regex didn't find something right?")
             self.base_url = base_rider_url + str(self.url_id)
-            
+
+        self.active_years = []
+        for season in temp_seasons_list:
+            self.active_years.append(int(re.search(r'season=\d{4}', season).group()[-4:]))
+        
         self.name = (self.base_page_soup.find_all("title")[0].contents[0])
         self.sheets = {current_year:Sheet(self.base_page_soup, self.name, current_year)}
         
     def load_sheets(self, start_year, end_year):
         for year in xrange(start_year, end_year+1):
             self.sheets[year] = Sheet(bs(urlib.urlopen(urlib.Request(self.base_url+year_url_suffix+str(year), headers = browser_spoof)).read(), 'html.parser'), self.name, year)
+
+    def load_all_sheets(self):
+        for year in self.active_years:
+            self.load_sheets(year, year)
