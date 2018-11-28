@@ -27,7 +27,7 @@ class Result_PW(BaseModel):
     year = IntegerField()
     date = DateField()
     
-    position = Integerfield()
+    position = IntegerField()
     points_pcs = IntegerField()
 
     race = ForeignKeyField(Race_PW, backref='results')
