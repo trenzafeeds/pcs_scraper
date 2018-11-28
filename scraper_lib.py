@@ -5,6 +5,7 @@ Marlboro College
 10/10/18
 """
 import datetime
+import re
 import urllib2 as urlib
 from bs4 import BeautifulSoup as bs
 
@@ -86,14 +87,29 @@ class Sheet:
 class Rider:
 
     def __init__(self, url_id):
-        self.url_id = url_id
-        self.base_url = base_rider_url + str(url_id)
+
+        temp_url = base_rider_url + str(url_id)
+        self.base_page_soup = bs(urlib.urlopen(urlib.Request(temp_url, headers = browser_spoof)).read(), 'html.parser')
+
+        temp_seasons_list = []
+        for element in self.base_page_soup.find_all('a', href=(lambda x: ("?id=" and "&season=" in x) and ("sort" not in x))):
+            temp_seasons_list.append(element['href'])
         
-        self.base_page_soup = bs(urlib.urlopen(urlib.Request(self.base_url, headers = browser_spoof)).read(), 'html.parser')
-        self.name = str(self.base_page_soup.find_all("title")[0].contents[0])
+        try:
+            self.url_id = int(url_id)
+            self.base_url = base_rider_url + str(self.url_id)
+            
+        except:
+            id_holder = re.search(r'\?id=\d{5,}', temp_seasons_list[0]).group()[4:]
+            try:
+                self.url_id = int(id_holder)
+            except:
+                raise ValueError("Regex didn't find something right?")
+            self.base_url = base_rider_url + str(self.url_id)
+            
+        self.name = (self.base_page_soup.find_all("title")[0].contents[0])
         self.sheets = {current_year:Sheet(self.base_page_soup, self.name, current_year)}
         
     def load_sheets(self, start_year, end_year):
         for year in xrange(start_year, end_year+1):
             self.sheets[year] = Sheet(bs(urlib.urlopen(urlib.Request(self.base_url+year_url_suffix+str(year), headers = browser_spoof)).read(), 'html.parser'), self.name, year)
-
