@@ -9,3 +9,7 @@ class Rider_bind:
         self.rider_pw = pw.Rider(pcsid=self.rider_py.url_id, name=self.rider_py.name)
 	self.rider_pw.save()
 
+def main():
+    pw.results_database.connect()
+
+main()

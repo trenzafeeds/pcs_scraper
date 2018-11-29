@@ -33,4 +33,15 @@ else
   echo "Not generating MySQL login file"
 fi
 
+echo "Do you wish to create the required tables in your database?"
+
+read CREATE_TABLES
+
+if [ ${CREATE_TABLES} = "y" -o "yes" ]; then
+  echo "Running make_tables.py..."
+  python make_tables.py
+else
+  echo "Not creating tables"
+fi
+
 exit 0
