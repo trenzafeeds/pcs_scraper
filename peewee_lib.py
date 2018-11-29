@@ -19,7 +19,6 @@ class Rider(BaseModel):
 class Race(BaseModel):
 
     name = CharField()
-    pcs_name = CharField()
     
 class Result(BaseModel):
 
