@@ -21,7 +21,7 @@ class Sheet_bind:
                 else:
                     pass
             
-                temp_res = pw.Result(name=(row.race + ' ' + row.name),\
+                temp_res = pw.Result(name=(row.name),\
                                   year=sheet.year,\
                                   position=row.result,\
                                   points_pcs=row.points_pcs,\
