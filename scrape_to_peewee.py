@@ -25,12 +25,12 @@ class Sheet_bind:
                                   year=sheet.year,\
                                   position=row.result,\
                                   points_pcs=row.points_pcs,\
-                                  race=temp_query,\
-                                  rider=rider_obj)
+                                  race=temp_query)
+                                  
                 
                 if row.row_type in ["stage", "classification"]:
                     temp_res.name = row.race + ' ' + row.name
-
+                temp_res.rider=rider_obj
                 temp_res.save()
             temp_query = None
             temp_res = None
