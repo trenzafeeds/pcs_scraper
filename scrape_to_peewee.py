@@ -57,6 +57,6 @@ class Rider_bind:
 
         
 def main():
-    pw.results_database.connect()
+    results_database.connect()
 
 main()
