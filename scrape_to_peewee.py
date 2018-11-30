@@ -1,5 +1,5 @@
 import scraper_lib as pylib
-from import peewee_lib as pw
+import peewee_lib as pw
 
 class Sheet_bind:
 
