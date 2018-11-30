@@ -1,5 +1,5 @@
 import scraper_lib as pylib
-from peewee_lib import *
+from import peewee_lib as pw
 
 class Sheet_bind:
 
@@ -14,14 +14,14 @@ class Sheet_bind:
             if row.row_type == "tour_header":
                 pass
             else:
-                temp_query = Race.select().where(Race.name == row.race)
+                temp_query = pw.Race.select().where(Race.name == row.race)
                 if not temp_query.exists():
-                    temp_query = Race(name=row.race)
+                    temp_query = pw.Race(name=row.race)
                     temp_query.save()
                 else:
                     pass
             
-                temp_res = Result(name=(row.race + ' ' + row.name),\
+                temp_res = pw.Result(name=(row.race + ' ' + row.name),\
                                   year=sheet.year,\
                                   position=row.result,\
                                   points_pcs=row.points_pcs,\
@@ -41,7 +41,7 @@ class Rider_bind:
     def __init__(self, rider_id):
 
         self.rider_py = pylib.Rider(rider_id)
-        self.rider_pw = Rider(pcsid=self.rider_py.url_id, name=self.rider_py.name)
+        self.rider_pw = pw.Rider(pcsid=self.rider_py.url_id, name=self.rider_py.name)
 	self.rider_pw.save()
         
         
@@ -57,6 +57,6 @@ class Rider_bind:
 
         
 def main():
-    results_database.connect()
+    pw.results_database.connect()
 
 main()
