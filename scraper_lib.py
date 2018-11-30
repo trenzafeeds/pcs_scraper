@@ -36,12 +36,15 @@ class Row:
             if self.name[-14:] == "Classification":
                 self.row_type = "classification"
                 self.tour_name = "unassigned"
+                self.race = "unassigned"
             elif self.name[0:5] == "Stage" or self.name[0:8] == "Prologue":
                 self.row_type = "stage"
                 self.tour_name = "unassigned"
+                self.race = "unassinged"
             else:
                 self.row_type = "race"
                 self.tour_name = None
+                self.race = self.name
 
             self.result = self.elements_span[1].contents[0]
 
@@ -70,6 +73,7 @@ class Sheet:
                 self.points_rows += 1
             if row_holder.row_type in ["stage", "classification"]:
                 row_holder.tour_name = tour_name_holder
+                row_holder.race = tour_name_holder
             self.rows.append(row_holder)
             index += 1
             
