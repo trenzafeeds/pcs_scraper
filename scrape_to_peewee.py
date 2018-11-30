@@ -21,15 +21,16 @@ class Sheet_bind:
                 else:
                     pass
             
-                temp_res = pw.Result(name=(row.name),\
+                temp_res = pw.Result(name=row.name,\
                                   year=sheet.year,\
                                   position=row.result,\
-                                  points_pcs=row.points_pcs,\
-                                  race=temp_query)
+                                  points_pcs=row.points_pcs)
+                                  
                                   
                 
                 if row.row_type in ["stage", "classification"]:
                     temp_res.name = row.race + ' ' + row.name
+                temp_res.race=temp_query
                 temp_res.rider=rider_obj
                 temp_res.save()
             temp_query = None
