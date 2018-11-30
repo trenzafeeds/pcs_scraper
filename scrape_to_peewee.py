@@ -51,7 +51,7 @@ class Rider_bind:
             if year not in self.rider_py.sheets:
                 self.rider_py.load_sheets(year, year)
             
-            loaded_sheet = Sheet_bind(self, self.rider_py.sheets[year])
+            loaded_sheet = Sheet_bind(self.rider_pw, self.rider_py.sheets[year])
             loaded_sheet.save() 
                 
 
