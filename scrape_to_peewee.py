@@ -48,9 +48,11 @@ class Rider_bind:
     def load_sheets(self, start_year, end_year):
 
         for year in xrange(start_year, end_year + 1):
-            if year in self.rider_py.sheets:
-                loaded_sheet = Sheet_bind(self.rider_py, self.rider_py.sheets[year])
-                loaded_sheet.save() 
+            if year not in self.rider_py.sheets:
+                self.rider_py.load_sheets(year, year)
+            
+            loaded_sheet = Sheet_bind(self.rider_py, self.rider_py.sheets[year])
+            loaded_sheet.save() 
                 
 
         
