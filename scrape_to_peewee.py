@@ -14,7 +14,7 @@ class Sheet_bind:
             if row.row_type == "tour_header":
                 pass
             else:
-                temp_query = pw.Race.select().where(Race.name == row.race)
+                temp_query = pw.Race.select().where(pw.Race.name == row.race)
                 if not temp_query.exists():
                     temp_query = pw.Race(name=row.race)
                     temp_query.save()
