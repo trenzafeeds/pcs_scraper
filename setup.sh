@@ -28,7 +28,7 @@ read RUN_LOGIN_INFO
 
 if [ ${RUN_LOGIN_INFO} = "y" -o "yes" ]; then
   echo "Running login_info.sh..."
-  sh login_info.sh
+  sh bin/login_info.sh
 else
   echo "Not generating MySQL login file"
 fi
@@ -39,7 +39,7 @@ read CREATE_TABLES
 
 if [ ${CREATE_TABLES} = "y" -o "yes" ]; then
   echo "Running make_tables.py..."
-  python make_tables.py
+  python lib/make_tables.py
 else
   echo "Not creating tables"
 fi

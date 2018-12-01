@@ -4,3 +4,4 @@ peewee_lib.pyc
 scrape_to_peewee.pyc
 scraper_lib.pyc
 test_scrape.pyc
+__pychache__

@@ -1,5 +1,5 @@
-import scraper_lib as pylib
-import peewee_lib as pw
+from lib import scraper_lib as pylib
+from lib import peewee_lib as pw
 
 from unidecode import unidecode
 
