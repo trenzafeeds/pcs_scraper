@@ -1,0 +1,6 @@
+mysql_login_info.py
+mysql_login_info.pyc
+peewee_lib.pyc
+scrape_to_peewee.pyc
+scraper_lib.pyc
+test_scrape.pyc

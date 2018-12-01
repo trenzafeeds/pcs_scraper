@@ -13,18 +13,17 @@ class BaseModel(Model):
 
 class Rider(BaseModel):
 
-    pcsid = IntegerField()
-    name = CharField()
+    pcsid = IntegerField(unique=True)
+    name = CharField(unique=True)
 
 class Race(BaseModel):
 
-    name = CharField()
+    name = CharField(unique=True)
     
 class Result(BaseModel):
 
     name = CharField()
     year = IntegerField()
-    date = DateField()
     
     position = IntegerField()
     points_pcs = IntegerField()
