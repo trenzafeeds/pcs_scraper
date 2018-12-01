@@ -12,36 +12,41 @@ class Sheet_bind:
         self.rows = []
         
         for row in sheet.rows:
-            
-            if row.row_type == "tour_header":
-                pass
-            else:
-                temp_query = pw.Race.select().where(pw.Race.name == unidecode(row.race))
-                if not temp_query.exists():
-                    temp_query = pw.Race(name=unidecode(row.race))
-                    temp_query.save()
-                else:
-                    temp_query = temp_query.get()
-            
-                temp_res = pw.Result(name=unidecode(row.name),\
-                                     year=sheet.year,\
-                                     points_pcs=row.points_pcs)
-                                  
-                                  
-                
-                if row.row_type in ["stage", "classification"]:
-                    temp_res.name = unidecode(row.race) + ' ' + unidecode(row.name)
+            if row.row_type != "tour_header":
 
-                if row.result == "DNF":
-                    temp_res.position = 0
+                if row.row_type in ["stage", "classification"]:
+                    temp_name = unidecode(row.race) + ' ' + unidecode(row.name)
                 else:
-                    temp_res.position = row.result
+                    temp_name = unidecode(row.name)
+                
+                    try_result = pw.Result.select().where(pw.Result.name==temp_name, pw.Result.year==self.year, pw.Result.rider_id==rider_obj.id)
+
+                if not try_result.exists():
+                    temp_query = pw.Race.select().where(pw.Race.name == unidecode(row.race))
+                    if not temp_query.exists():
+                        temp_query = pw.Race(name=unidecode(row.race))
+                        temp_query.save()
+                    else:
+                        temp_query = temp_query.get()
                     
-                temp_res.race=temp_query
-                temp_res.rider=rider_obj
-                temp_res.save()
-            temp_query = None
-            temp_res = None
+                        temp_res = pw.Result(name=unidecode(row.name),\
+                                             year=sheet.year,\
+                                             points_pcs=row.points_pcs)
+                
+                        if row.row_type in ["stage", "classification"]:
+                            temp_res.name = unidecode(row.race) + ' ' + unidecode(row.name)
+
+                        if row.result == "DNF":
+                            temp_res.position = 0
+                        else:
+                            temp_res.position = row.result
+                    
+                        temp_res.race=temp_query
+                        temp_res.rider=rider_obj
+                        temp_res.save()
+                        
+                    temp_query = None
+                    temp_res = None
             
 
 class Rider_bind:
@@ -49,8 +54,15 @@ class Rider_bind:
     def __init__(self, rider_id):
 
         self.rider_py = pylib.Rider(rider_id)
-        self.rider_pw = pw.Rider(pcsid=self.rider_py.url_id, name=unidecode(self.rider_py.name))
-	self.rider_pw.save()
+
+        temp_query = pw.Rider.select().where(pw.Rider.pcsid==self.rider_py.url_id)
+        if not temp_query.exists():
+            self.rider_pw = pw.Rider(pcsid=self.rider_py.url_id, name=unidecode(self.rider_py.name))
+        else:
+            temp_query = temp_query.get()
+            self.rider_pw = temp_query
+            
+        self.rider_pw.save()
         
         
     def load_sheets(self, start_year, end_year):
