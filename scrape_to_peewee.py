@@ -19,7 +19,7 @@ class Sheet_bind:
                 else:
                     temp_name = unidecode(row.name)
                 
-                    try_result = pw.Result.select().where(pw.Result.name==temp_name, pw.Result.year==self.year, pw.Result.rider_id==rider_obj.id)
+                try_result = pw.Result.select().where(pw.Result.name==temp_name, pw.Result.year==self.year, pw.Result.rider_id==rider_obj.id)
 
                 if not try_result.exists():
                     temp_query = pw.Race.select().where(pw.Race.name == unidecode(row.race))
@@ -29,21 +29,21 @@ class Sheet_bind:
                     else:
                         temp_query = temp_query.get()
                     
-                        temp_res = pw.Result(name=unidecode(row.name),\
-                                             year=sheet.year,\
-                                             points_pcs=row.points_pcs)
+                    temp_res = pw.Result(name=unidecode(row.name),\
+                                         year=sheet.year,\
+                                         points_pcs=row.points_pcs)
                 
-                        if row.row_type in ["stage", "classification"]:
-                            temp_res.name = unidecode(row.race) + ' ' + unidecode(row.name)
+                    if row.row_type in ["stage", "classification"]:
+                        temp_res.name = unidecode(row.race) + ' ' + unidecode(row.name)
 
-                        if row.result == "DNF":
-                            temp_res.position = 0
-                        else:
-                            temp_res.position = row.result
+                    if row.result == "DNF":
+                        temp_res.position = 0
+                    else:
+                        temp_res.position = row.result
                     
-                        temp_res.race=temp_query
-                        temp_res.rider=rider_obj
-                        temp_res.save()
+                    temp_res.race=temp_query
+                    temp_res.rider=rider_obj
+                    temp_res.save()
                         
                     temp_query = None
                     temp_res = None
